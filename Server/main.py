@@ -1,6 +1,7 @@
 from mcp.server.fastmcp import FastMCP
 from tools.search_series import search_series
-from model.models_fred import SearchSeriesInput
+from tools.observations import get_observations
+from model.models_fred import SearchSeriesInput, ObservationsInput
 
 # Initialize FastMCP server with Streamable HTTP
 mcp = FastMCP("FRED", host="0.0.0.0", port=8000)
@@ -45,6 +46,56 @@ async def fred_search_series(
             filter_value=filter_value,
             tag_names=tag_names,
             exclude_tag_names=exclude_tag_names,
+        )
+    )
+    return result.model_dump()
+
+
+@mcp.tool()
+async def fred_get_observations(
+    series_id: str,
+    observation_start: str | None = None,
+    observation_end: str | None = None,
+    realtime_start: str | None = None,
+    realtime_end: str | None = None,
+    limit: int = 100000,
+    offset: int = 0,
+    sort_order: str = "asc",
+    units: str = "lin",
+    frequency: str | None = None,
+    aggregation_method: str = "avg",
+    output_type: int = 1,
+) -> dict:
+    """Get observations (data values) for an economic data series.
+
+    Args:
+        series_id: The ID for a FRED series (e.g., "GNPCA", "GDP", "UNRATE")
+        observation_start: Start date for observations (YYYY-MM-DD)
+        observation_end: End date for observations (YYYY-MM-DD)
+        realtime_start: Start date for real-time period (YYYY-MM-DD)
+        realtime_end: End date for real-time period (YYYY-MM-DD)
+        limit: Maximum number of results (1-100000)
+        offset: Starting offset for pagination
+        sort_order: 'asc' or 'desc' (sorts by observation_date)
+        units: Data transformation ('lin', 'chg', 'ch1', 'pch', 'pc1', 'pca', 'cch', 'cca', 'log')
+        frequency: Lower frequency to aggregate values to ('d', 'w', 'bw', 'm', 'q', 'sa', 'a', etc.)
+        aggregation_method: Method for frequency aggregation ('avg', 'sum', 'eop')
+        output_type: Output format (1-4)
+    """
+    result = await get_observations(
+        ObservationsInput(
+            series_id=series_id,
+            observation_start=observation_start,
+            observation_end=observation_end,
+            realtime_start=realtime_start,
+            realtime_end=realtime_end,
+            limit=limit,
+            offset=offset,
+            sort_order=sort_order,
+            units=units,
+            frequency=frequency,
+            aggregation_method=aggregation_method,
+            output_type=output_type,
         )
     )
     return result.model_dump()

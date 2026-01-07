@@ -33,4 +33,35 @@ class SearchSeriesOutput(BaseModel):
     limit: int
     seriess: list[dict]
     
-    
+
+
+class ObservationsInput(BaseModel):
+    series_id: str
+    file_type: Literal["xml", "json"] = "json"
+    observation_start: str | None = None
+    observation_end: str | None = None
+    realtime_start: str | None = None
+    realtime_end: str | None = None
+    limit: int = 100000
+    offset: int = 0
+    sort_order: Literal["asc", "desc"] = "asc"
+    units: Literal["lin", "chg", "ch1", "pch", "pc1", "pca", "cch", "cca", "log"] = "lin"
+    frequency: Literal["d", "w", "bw", "m", "q", "sa", "a", "wef", "weth", "wew", "wetu", "wem", "wesu", "wesa", "bwew", "bwem"] | None = None
+    aggregation_method: Literal["avg", "sum", "eop"] = "avg"
+    output_type: Literal[1, 2, 3, 4] = 1
+
+
+class ObservationsOutput(BaseModel):
+    realtime_start: str
+    realtime_end: str
+    observation_start: str
+    observation_end: str
+    units: str
+    output_type: int
+    file_type: str
+    order_by: str
+    sort_order: str
+    count: int
+    offset: int
+    limit: int
+    observations: list[dict]
