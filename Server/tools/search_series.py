@@ -14,7 +14,7 @@ async def search_series(search_input: SearchSeriesInput) -> SearchSeriesOutput:
     """Search for FRED series."""
     params = {
         "api_key": FRED_API_KEY,
-        "search_text": search_input.search_text,
+        "search_text": search_input.search_text.strip(),
         "file_type": search_input.file_type,
         "search_type": search_input.search_type,
         "limit": search_input.limit,
