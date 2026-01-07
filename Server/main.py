@@ -58,7 +58,7 @@ async def fred_get_observations(
     observation_end: str | None = None,
     realtime_start: str | None = None,
     realtime_end: str | None = None,
-    limit: int = 100000,
+    limit: int = 10000,
     offset: int = 0,
     sort_order: str = "asc",
     units: str = "lin",

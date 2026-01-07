@@ -47,15 +47,8 @@ async def get_observations(observations_input: ObservationsInput) -> Observation
         return ObservationsOutput(
             realtime_start=data["realtime_start"],
             realtime_end=data["realtime_end"],
-            observation_start=data["observation_start"],
-            observation_end=data["observation_end"],
             units=data["units"],
-            output_type=data["output_type"],
-            file_type=data["file_type"],
-            order_by=data["order_by"],
             sort_order=data["sort_order"],
             count=data["count"],
-            offset=data["offset"],
-            limit=data["limit"],
             observations=cleaned_observations
         )

@@ -42,7 +42,7 @@ class ObservationsInput(BaseModel):
     observation_end: str | None = None
     realtime_start: str | None = None
     realtime_end: str | None = None
-    limit: int = 100000
+    limit: int = 10000
     offset: int = 0
     sort_order: Literal["asc", "desc"] = "asc"
     units: Literal["lin", "chg", "ch1", "pch", "pc1", "pca", "cch", "cca", "log"] = "lin"
@@ -54,14 +54,7 @@ class ObservationsInput(BaseModel):
 class ObservationsOutput(BaseModel):
     realtime_start: str
     realtime_end: str
-    observation_start: str
-    observation_end: str
     units: str
-    output_type: int
-    file_type: str
-    order_by: str
     sort_order: str
     count: int
-    offset: int
-    limit: int
     observations: list[dict]
